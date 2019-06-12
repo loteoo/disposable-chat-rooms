@@ -1,32 +1,36 @@
 import { h } from 'hyperapp'
+import { css } from 'emotion'
 
-// Import actions
-import { SetValue } from './actions'
+import SideBar from './components/SideBar'
+import Chat from './components/Chat'
+import Form from './components/Form'
 
-const targetValue = event => event.target.value
+const mainContent = css`
+  margin-left: 16rem;
+  padding: 3rem;
+`
 
-const container = {
-  maxWidth: '1024px',
-  margin: '0 auto',
-  padding: '1rem'
-}
 
 // Root view
-export default state => (
-  <main style={container}>
-    <h1>{state.title}</h1>
-    <p>{state.description}</p>
-    <input
-      type="text"
-      value={state.title}
-      oninput={[SetValue, ev => ({ key: 'title', value: targetValue(ev) })]}
-    />
-    <input
-      type="text"
-      value={state.description}
-      oninput={[SetValue, ev => ({ key: 'description', value: targetValue(ev) })]}
-    />
-    <h4>State: </h4>
-    <pre>{JSON.stringify(state, null, 2)}</pre>
-  </main>
-)
+export default state => {
+
+  const room = state.rooms[state.currentRoom]
+
+  return (
+    <div id="top" class="page" role="document">
+      <SideBar user={state.user} room={room} />
+      <main role="main" class={mainContent}>
+
+        <Chat room={room} />
+
+        <Form inputValue={state.inputValue} />
+
+        <footer>
+          <header><h2>State view</h2></header>
+          <pre>{JSON.stringify(state, null, 2)}</pre>
+        </footer>
+
+      </main>
+    </div>
+  )
+}

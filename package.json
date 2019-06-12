@@ -9,7 +9,9 @@
     "build": "rimraf .cache && rimraf dist && parcel build ./src/index.html --no-source-maps --detailed-report && workbox generateSW workbox-config.js"
   },
   "dependencies": {
+    "emotion": "^10.0.9",
     "hyperapp": "^2.0.0-beta.22",
+    "marked": "^0.6.2",
     "sanitize.css": "^8.0.1"
   },
   "devDependencies": {
