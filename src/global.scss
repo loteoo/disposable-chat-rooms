@@ -5,7 +5,6 @@
 /* === Global variables === */
 :root {
 	--background-color: #ffffff;
-	--alt-background-color: #f4f4f4;
 	--text-color: #121212;
   --accent-color: #0000FF;
   --border-color: #eeeeee;
@@ -51,8 +50,7 @@ pre code {
   padding: 1rem;
 }
 
-.container {
-  max-width: 640px;
-  margin: 3rem auto;
-  padding: 1rem;
+.app {
+  position: relative;
+  height: 100vh;
 }
