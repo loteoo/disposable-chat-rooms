@@ -1,15 +1,23 @@
 import { useState } from 'react'
 import './style.scss'
+import { App } from '../../App'
+
+const OpenModal = (state) => ({ ...state, itemModelOpened: true })
+
 export default () => {
   const [state, setState] = useState({})
   return (
-    <div className="add-button">
-      <button type="button" onClick={() => setState({ opened: !state.opened })}>+</button>
-      {state.opened && (
-        <ul>
-          <li>Add markdown</li>
-        </ul>
+    <App.Consumer>
+      {(ctx) => (
+        <div className="add-button">
+          <button type="button" onClick={() => setState({ opened: !state.opened })}>+</button>
+          {state.opened && (
+            <ul>
+              <li onClick={() => ctx.dispatch(OpenModal)}>Add markdown</li>
+            </ul>
+          )}
+        </div>
       )}
-    </div>
+    </App.Consumer>
   )
 }
