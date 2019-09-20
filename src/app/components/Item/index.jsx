@@ -1,10 +1,10 @@
-import { useState } from './node_modules/react'
 import './style.scss'
-export default () => {
-  const [state, setState] = useState({})
+export default ({ item }) => {
   return (
-    <div className="content">
-
+    <div className="item" style={{
+      transform: `translate(${item.pos.x}px, ${item.pos.y}px)`
+    }}>
+      {item.value}
     </div>
   )
 }

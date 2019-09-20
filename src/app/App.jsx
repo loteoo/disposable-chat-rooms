@@ -1,47 +1,37 @@
 import { useReducer } from 'react'
 import Sidebar from './components/Sidebar'
 import AddButton from './components/AddButton'
+import DropZone from './components/DropZone'
+import Item from './components/Item'
 
 const init = {
   items: {}
 }
 
-const reducer = (state, action) => action(state);
+const reducer = (state, action) => action(state)
 
-const AddItem = (state) => ({
-  ...state,
-  items: {
-    ...state.items,
-    [item.id]: item
-  }
-})
+// const RemoveItem = (state) => {
+//   const { [item.id]: omit, ...rest } = state.items
+//   return {
+//     ...state,
+//     items: rest
+//   }
+// }
 
-const RemoveItem = (state) => {
-  const { [item.id]: omit, ...rest } = state.items
-  return {
-    ...state,
-    items: rest
-  }
-}
-
-
-
-export const App = React.createContext();
-
+export const App = React.createContext()
 
 export default () => {
+  const [state, dispatch] = useReducer(reducer, init)
 
-  const [state, dispatch] = useReducer(reducer, init);
-
-  console.log(state);
-
+  console.log(state)
 
   return (
-    <App.Provider value={{state, dispatch}}>
-      <div className="app">
+    <App.Provider value={{ state, dispatch }}>
+      <DropZone>
         <Sidebar />
+        {Object.keys(state.items).map(id => <Item key={id} item={state.items[id]} />)}
         <AddButton />
-      </div>
+      </DropZone>
     </App.Provider>
   )
 }
