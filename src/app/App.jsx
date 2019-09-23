@@ -1,8 +1,11 @@
 import { useReducer } from 'react'
+import { ApolloProvider } from '@apollo/react-hooks';
+
 import Sidebar from './components/Sidebar'
 import AddButton from './components/AddButton'
 import DropZone from './components/DropZone'
-import Item from './components/Item'
+import {client} from '../apollo-client'
+import Room from './components/Room';
 
 const init = {
   items: {}
@@ -26,12 +29,14 @@ export default () => {
   console.log(state)
 
   return (
-    <App.Provider value={{ state, dispatch }}>
-      <DropZone>
-        <Sidebar />
-        {Object.keys(state.items).map(id => <Item key={id} item={state.items[id]} />)}
-        <AddButton />
-      </DropZone>
-    </App.Provider>
+    <ApolloProvider client={client}>
+      <App.Provider value={{ state, dispatch }}>
+        <DropZone>
+          <Sidebar />
+          <Room />
+          <AddButton />
+        </DropZone>
+      </App.Provider>
+    </ApolloProvider>
   )
 }

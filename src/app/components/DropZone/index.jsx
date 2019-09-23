@@ -1,18 +1,11 @@
 import './style.scss'
-import { App } from '../../App'
 
-const AddItem = item => state => ({
-  ...state,
-  items: {
-    ...state.items,
-    [item.id]: item
-  }
-})
+
 
 const handleDragOver = (ev) => {
   ev.preventDefault()
 }
-const handleDrop = dispatch => ev => {
+const handleDrop = ev => {
   ev.preventDefault()
 
   if (ev.dataTransfer.files.length > 0) {
@@ -21,41 +14,39 @@ const handleDrop = dispatch => ev => {
         x: ev.clientX,
         y: ev.clientY
       }
-      handleFileDrop(file, dispatch, pos)
+      handleFileDrop(file, pos)
     }
   } else {
-    dispatch(AddItem({
-      id: Math.random().toString(36).substring(7),
-      type: 'txt',
-      value: ev.dataTransfer.getData('text'),
-      pos: {
-        x: ev.clientX,
-        y: ev.clientY
-      }
-    }))
+    // dispatch(AddItem({
+    //   id: Math.random().toString(36).substring(7),
+    //   type: 'txt',
+    //   value: ev.dataTransfer.getData('text'),
+    //   pos: {
+    //     x: ev.clientX,
+    //     y: ev.clientY
+    //   }
+    // }))
   }
 }
 
-const handleFileDrop = (file, dispatch, pos) => {
+const handleFileDrop = (file, pos) => {
   const reader = new FileReader()
   reader.onload = ev => {
     console.log(ev.target.result)
-    dispatch(AddItem({
-      id: Math.random().toString(36).substring(7),
-      type: 'txt',
-      value: ev.target.result,
-      pos
-    }))
+    // dispatch(AddItem({
+    //   id: Math.random().toString(36).substring(7),
+    //   type: 'txt',
+    //   value: ev.target.result,
+    //   pos
+    // }))
   }
   reader.readAsText(file)
 }
 
-export default (props) => (
-  <App.Consumer>
-    {({ dispatch }) => (
-      <div className="drop-zone" onDragOver={handleDragOver} onDrop={handleDrop(dispatch)}>
-        {props.children}
-      </div>
-    )}
-  </App.Consumer>
-)
+export default (props) => {
+  return (
+    <div className="drop-zone" onDragOver={handleDragOver} onDrop={handleDrop}>
+      {props.children}
+    </div>
+  )
+}
