@@ -1,9 +1,18 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
 import Item from '../Item'
 
-const ALL_USERS = gql`
+const ADD_ITEM = gql`
+  mutation addItem($name: String!) {
+    addTodo(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+const ALL_ITEMS = gql`
   {
     items {
       id
@@ -14,12 +23,13 @@ const ALL_USERS = gql`
 
 export default () => {
 
-  const { loading, error, data } = useQuery(ALL_USERS);
+  const { loading, error, data } = useQuery(ALL_ITEMS);
+
+  const [addItem, {result}] = useMutation(ADD_ITEM)
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-    console.log(data);
 
 
   return (
