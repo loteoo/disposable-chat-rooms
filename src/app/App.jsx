@@ -1,25 +1,18 @@
-import { useReducer } from 'react'
-import { ApolloProvider } from '@apollo/react-hooks';
+import { useReducer, useEffect } from 'react'
 
 import Sidebar from './components/Sidebar'
 import AddButton from './components/AddButton'
 import DropZone from './components/DropZone'
-import {client} from '../apollo-client'
-import Room from './components/Room';
+import Room from './components/Room'
+import { socket } from '../utils'
+
+import { AddItems } from './actions'
 
 const init = {
-  items: {}
+  items: []
 }
 
 const reducer = (state, action) => action(state)
-
-// const RemoveItem = (state) => {
-//   const { [item.id]: omit, ...rest } = state.items
-//   return {
-//     ...state,
-//     items: rest
-//   }
-// }
 
 export const App = React.createContext()
 
@@ -28,15 +21,17 @@ export default () => {
 
   console.log(state)
 
+  useEffect(() => {
+    socket.emit('load items', 'message hello', items => dispatch(AddItems(items)))
+  }, [])
+
   return (
-    <ApolloProvider client={client}>
-      <App.Provider value={{ state, dispatch }}>
-        <DropZone>
-          <Sidebar />
-          <Room />
-          <AddButton />
-        </DropZone>
-      </App.Provider>
-    </ApolloProvider>
+    <App.Provider value={{ state, dispatch }}>
+      <DropZone>
+        <Sidebar />
+        <Room />
+        <AddButton />
+      </DropZone>
+    </App.Provider>
   )
 }

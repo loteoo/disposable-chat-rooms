@@ -1,6 +1,24 @@
 import './style.scss'
+import { AddItem } from '../../actions'
+const isValidUrl = (string) => {
+  try {
+    void new URL(string)
+    return true
+  } catch (_) {
+    return false
+  }
+}
 
+const getTextType = (text) => {
+  if (isValidUrl(text)) {
+    return 'url'
+  }
+  if (text.length > 24) {
+    return 'long_text'
+  }
 
+  return 'text'
+}
 
 const handleDragOver = (ev) => {
   ev.preventDefault()
@@ -17,15 +35,17 @@ const handleDrop = ev => {
       handleFileDrop(file, pos)
     }
   } else {
-    // dispatch(AddItem({
-    //   id: Math.random().toString(36).substring(7),
-    //   type: 'txt',
-    //   value: ev.dataTransfer.getData('text'),
-    //   pos: {
-    //     x: ev.clientX,
-    //     y: ev.clientY
-    //   }
-    // }))
+    const value = ev.dataTransfer.getData('text')
+
+    dispatch(AddItem({
+      id: Math.random().toString(36).substring(7),
+      type: getTextType(value),
+      value: ev.dataTransfer.getData('text'),
+      pos: {
+        x: ev.clientX,
+        y: ev.clientY
+      }
+    }))
   }
 }
 

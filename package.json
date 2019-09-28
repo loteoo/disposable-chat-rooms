@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html --open",
+    "start:api": "node server/server",
     "build": "rimraf .cache && rimraf dist && parcel build ./src/index.html --no-source-maps --detailed-report && workbox generateSW workbox-config.js"
   },
   "babel": {
@@ -20,13 +21,13 @@
     ]
   },
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.1",
-    "apollo-boost": "^0.4.4",
-    "apollo-server-koa": "^2.9.3",
-    "graphql": "^14.5.7",
+    "@svgr/parcel-plugin-svgr": "^4.3.2",
+    "faker": "^4.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "sanitize.css": "^10.0.0"
+    "sanitize.css": "^10.0.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
